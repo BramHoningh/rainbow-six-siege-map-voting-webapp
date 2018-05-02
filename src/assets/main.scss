@@ -1,0 +1,50 @@
+h1 {
+    font-size: 50px;
+    text-align: center;
+}
+
+input {
+    border: none;
+    font-size: 40px;
+    padding: 5px 10px;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: bold;
+    
+    &:focus {
+        outline: none;
+    }
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: bold; 
+    font-size: 30px;
+    background-color: #ffffff;
+    cursor: pointer;
+    min-width: 100px;
+    transition: all 230ms;
+    // border-radius: 3px;
+
+    &:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &.blue {
+        background-color: #1579a0;
+    }
+
+    &.orange {
+        background-color: #c4633b;
+    }
+
+    &.large {
+        font-size: 50px;
+    }
+}
