@@ -17,7 +17,7 @@ body {
 }
 
 #app {
-  background-color: #0f0f0f;
+  background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   min-height: 100vh;
 
