@@ -1,5 +1,7 @@
 <template>
-  
+<div>
+  <h1>Your code: {{roomCode}}</h1>
+</div>
 </template>
 
 <script>
@@ -11,9 +13,11 @@ import serverLocation from '../assets/server'
 
 export default {
   name: 'room',
+  props: ['code'],
   data () {
     return {
-      alphabet: "abcdefghijklmnopqrstuvwxyz0123456789"
+      alphabet: "abcdefghijklmnopqrstuvwxyz",
+      roomCode: ''
     }
   },
   methods: {
@@ -28,12 +32,19 @@ export default {
   created () {
     const socket = io(serverLocation)
 
-    let room = this.generateRandomId("")
-    console.log('room', room)
+    console.log('code', this.code)
 
-    socket.on('connect', () => {
-      socket.emit('room', room)
-    })
+    if (!this.code) {
+      this.roomCode = this.generateRandomId("")
+      
+      console.log('room', this.roomCode)
+
+      socket.on('connect', () => {
+        socket.emit('room', this.roomCode)
+      })
+    } else {
+      console.log('prop code', this.code)
+    }
 
     socket.on('message', data => {
       console.log('incoming message', data)

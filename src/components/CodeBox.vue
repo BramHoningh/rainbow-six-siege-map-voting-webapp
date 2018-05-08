@@ -32,7 +32,6 @@ export default {
     checkCode() {
       if (this.inputCode.replace(/\s/g, "").length === 10) {
         this.errorMessage = ""
-        // checkCode on the server
 
         if (this.isConnected) {
           this.socket.emit('checkRoom', this.inputCode)
@@ -40,7 +39,11 @@ export default {
           let senderId = 'id-' + this.inputCode
 
           this.socket.on(senderId, message => {
-            this.errorMessage = message
+            if (message === 200) {
+              this.$router.push({ name: 'room', params: { code: this.inputCode } })
+            } else {
+              this.errorMessage = message
+            }
           })
         } else {
           this.errorMessage = "Connection lost... try reloading?"

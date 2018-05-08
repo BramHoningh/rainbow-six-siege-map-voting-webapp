@@ -2,7 +2,7 @@
 <div>
   <h1>Start a new session</h1>
   <div class="new-box">
-    <button class="large" @click="startNewSession()">New session</button>
+    <button class="large" @click="$router.push('room')">New session</button>
   </div>
 </div>
 </template>
