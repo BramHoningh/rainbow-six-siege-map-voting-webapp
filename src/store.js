@@ -5,14 +5,26 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    code: ''
+    code: '',
+    bannedMaps: {
+      teamBlue: [],
+      teamOrange: []
+    }
   },
   mutations: {
-    updateCode (state, newCode) {
-      state.code = newCode
+    updateCode (state, payload) {
+      state.code = payload.newCode
+    },
+
+    addBannedMap (state, payload) {
+      if (payload.team === "blue") {
+        state.bannedMaps.teamBlue.push(payload.map)
+      } else {
+        state.bannedMaps.teamOrange.push(payload.map)
+      }
     }
   },
   actions: {
-
+    
   },
 });

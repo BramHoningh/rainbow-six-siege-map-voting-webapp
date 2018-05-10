@@ -13,7 +13,6 @@ import serverLocation from '../assets/server'
 
 export default {
   name: 'room',
-  props: ['code'],
   data () {
     return {
       alphabet: "abcdefghijklmnopqrstuvwxyz",
@@ -32,18 +31,17 @@ export default {
   created () {
     const socket = io(serverLocation)
 
-    console.log('code', this.code)
-
-    if (!this.code) {
+    if (this.$store.state.code === "") {
       this.roomCode = this.generateRandomId("")
-      
-      console.log('room', this.roomCode)
 
       socket.on('connect', () => {
         socket.emit('room', this.roomCode)
+        this.$store.commit('updateCode', {
+          newCode: this.roomCode
+        })
       })
     } else {
-      console.log('prop code', this.code)
+      socket.emit('room', this.$store.state.code)
     }
 
     socket.on('message', data => {

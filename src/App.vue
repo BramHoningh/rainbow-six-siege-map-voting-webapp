@@ -8,7 +8,7 @@
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700');
-@import './assets/main.scss';
+@import './assets/style/all.scss';
 
 body {
   margin: 0;
@@ -17,7 +17,8 @@ body {
 }
 
 #app {
-  background-color: rgba(0, 0, 0, 0.8);
+  // background-color: rgba(0, 0, 0, 0.8);
+  background-color: black;
   color: #fff;
   min-height: 100vh;
 

@@ -40,7 +40,10 @@ export default {
 
           this.socket.on(senderId, message => {
             if (message === 200) {
-              this.$router.push({ name: 'room', params: { code: this.inputCode } })
+              this.$store.commit('updateCode', {
+                newCode: this.inputCode
+              })
+              this.$router.push('room')
             } else {
               this.errorMessage = message
             }
