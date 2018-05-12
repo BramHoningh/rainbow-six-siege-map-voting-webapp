@@ -14,6 +14,7 @@
 </template>
 
 <script>
+
 export default {
   name: "maps",
   data() {
@@ -29,6 +30,15 @@ export default {
   },
   methods: {
     banMap(mapName) {
+      this.commitBannedMap(mapName)
+
+      this.$store.state.socket.emit('user-choose-map', {
+        team: this.$store.state.playerTeam,
+        code: this.$store.state.code,
+        map: mapName
+      })
+    },
+    commitBannedMap (mapName) {
       this.$store.commit('ADD_BANNED_MAP', {
         map: {
           name: this.maps.filter(map => map.name === mapName)[0].name,
@@ -40,21 +50,27 @@ export default {
       this.$store.commit('UPDATE_HAD_LAST_TURN', {
         team: this.$store.state.playerTeam
       })
-
-      // ONLY FOR DEVEOPMENT
-      let team = ''
-
-      if (this.$store.state.playerTeam === 'blue') {
-        team = 'orange'
-      } else {
-        team = 'blue'
-      }
-
-      this.$store.commit('ADD_TEAM_TO_PLAYER', {
-        team: team
-      })
-      // END OF O-F-D 
     }
+  },
+  
+  created () {
+    if (!this.$store.state.socket) {
+      this.$router.push('/')
+    }
+
+    this.$store.state.socket.on('choosen-map', data => {
+      this.$store.commit('ADD_BANNED_MAP', {
+        map: {
+          name: this.maps.filter(map => map.name === data.map)[0].name,
+          image: this.maps.filter(map => map.name === data.map)[0].image,
+          team: data.team
+        }
+      })
+
+      this.$store.commit('UPDATE_HAD_LAST_TURN', {
+        team: this.$store.state.playerTeam
+      })
+    })
   }
 };
 </script>

@@ -43,6 +43,11 @@ export default {
               this.$store.commit('UPDATE_CODE', {
                 newCode: this.inputCode
               })
+
+              this.$store.commit('ADD_TEAM_TO_PLAYER', {
+                team: 'orange'
+              })
+              
               this.$router.push('pick-ban')
             } else {
               this.errorMessage = message

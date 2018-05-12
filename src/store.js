@@ -9,7 +9,7 @@ export default new Vuex.Store({
     code: '',
     maps: maps,
     socket: null,
-    playerTeam: 'blue',
+    playerTeam: '',
     hadLastTurn: '',
     bannedMaps: {
       teamBlue: [],
@@ -26,13 +26,13 @@ export default new Vuex.Store({
     },
 
     ADD_BANNED_MAP (state, payload) {
-      if (state.playerTeam === "blue") {
+      if (payload.map.team === "blue") {
         state.bannedMaps.teamBlue.push(payload.map)
       } else {
         state.bannedMaps.teamOrange.push(payload.map)
       }
 
-      state.maps.filter(map => map.name === payload.map.name)[0].team = state.playerTeam
+      state.maps.filter(map => map.name === payload.map.name)[0].team = payload.map.team
     },
 
     ADD_TEAM_TO_PLAYER (state, payload) {
