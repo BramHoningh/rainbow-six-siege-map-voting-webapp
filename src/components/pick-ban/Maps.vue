@@ -1,12 +1,22 @@
 <template>
 <div class="maps">
-  <div  class="map" 
-        v-for="(map, index) in maps" 
-        :key="index" 
-        @click="banMap(map.name)"
+  <div  
+    class="map"
+    :class="{'disabled': map.team !== ''}" 
+    v-for="(map, index) in maps" 
+    :key="index" 
+    @click="banMap(map.name)"
   >
-    <div class="image" :class="{'is-picked': map.team !== ''}" :style="{'background-image': 'url(' + map.image + ')'}">
-      <div class="team-overlay" :class="'team-' + map.team" v-show="map.team"></div>
+    <div 
+      class="image" 
+      :class="{'is-picked': map.team !== ''}" 
+      :style="{'background-image': 'url(' + map.image + ')'}"
+    >
+      <div 
+        class="team-overlay" 
+        :class="'team-' + map.team" 
+        v-show="map.team"
+      ></div>
     </div>
     <div class="name">{{map.name}}</div>
   </div>
@@ -24,7 +34,6 @@ export default {
   },
   computed: {
     maps () {
-      console.log('hallo')
       return this.$store.state.maps
     }
   },
@@ -92,6 +101,10 @@ export default {
 
     &:hover {
       transform: scale(1.1);
+    }
+
+    &.disabled {
+      pointer-events: none;
     }
 
     .image {
