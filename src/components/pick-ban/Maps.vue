@@ -90,13 +90,9 @@ export default {
       }
 
       .team-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 50px;
-        height: 50px;
-        border-radius: 50px;
+        width: 100%;
+        height: 100%;
+        opacity: 0.7;
 
         &.team-blue {
           background-color: $siege-blue;
