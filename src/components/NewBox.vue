@@ -15,11 +15,6 @@ export default {
 
         }
     },
-    methods: {
-        startNewSession() {
-            console.log('Start new session')
-        }
-    }
 }
 </script>
 

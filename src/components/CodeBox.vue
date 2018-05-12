@@ -34,16 +34,16 @@ export default {
         this.errorMessage = ""
 
         if (this.isConnected) {
-          this.socket.emit('checkRoom', this.inputCode)
+          this.$store.state.socket.emit('checkRoom', this.inputCode)
 
           let senderId = 'id-' + this.inputCode
 
-          this.socket.on(senderId, message => {
+          this.$store.state.socket.on(senderId, message => {
             if (message === 200) {
               this.$store.commit('UPDATE_CODE', {
                 newCode: this.inputCode
               })
-              this.$router.push('room')
+              this.$router.push('pick-ban')
             } else {
               this.errorMessage = message
             }
@@ -60,9 +60,13 @@ export default {
     }
   },
   created () {
-    this.socket = io(serverLocation)
+    let socket = io(serverLocation)
 
-    this.socket.on('connect', () => {
+    this.$store.commit('ADD_SOCKET', {
+      socket: socket
+    })
+
+    this.$store.state.socket.on('connect', () => {
       this.isConnected = true
     })
   }

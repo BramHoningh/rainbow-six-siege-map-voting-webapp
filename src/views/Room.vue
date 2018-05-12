@@ -29,23 +29,27 @@ export default {
     }
   },
   created () {
-    const socket = io(serverLocation)
+    if (this.$store.state.socket !== null) {
+      const socket = io(serverLocation)
+      this.$store.commit('ADD_SOCKET', {
+        socket: socket
+      })
+    }
 
     if (this.$store.state.code === "") {
+      // New session
       this.roomCode = this.generateRandomId("")
 
-      socket.on('connect', () => {
-        socket.emit('room', this.roomCode)
+      this.$store.state.socket.on('connect', () => {
+        this.$store.state.socket.emit('room', this.roomCode)
         this.$store.commit('UPDATE_CODE', {
           newCode: this.roomCode
         })
       })
-    } else {
-      socket.emit('room', this.$store.state.code)
     }
 
-    socket.on('message', data => {
-      console.log('incoming message', data)
+    this.$store.state.socket.on('room-complete', data => {
+      this.$router.push('pick-ban')
     })
   }
 }
