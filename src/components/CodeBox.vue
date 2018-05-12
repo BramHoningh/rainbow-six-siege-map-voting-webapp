@@ -40,7 +40,7 @@ export default {
 
           this.socket.on(senderId, message => {
             if (message === 200) {
-              this.$store.commit('updateCode', {
+              this.$store.commit('UPDATE_CODE', {
                 newCode: this.inputCode
               })
               this.$router.push('room')

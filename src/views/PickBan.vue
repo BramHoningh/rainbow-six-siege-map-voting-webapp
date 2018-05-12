@@ -1,7 +1,7 @@
 <template>
 <div class="pick-ban-container">
     <div class="team-left">
-        <TeamBan position="left" :maps="$store.state.bannedMaps.teamBlue"></TeamBan>
+        <TeamBan position="left" :maps="teamBlue"></TeamBan>
     </div>
 
     <div class="log-container">
@@ -9,7 +9,7 @@
     </div>
 
     <div class="team-right">
-        <TeamBan position="right" :maps="$store.state.bannedMaps.teamOrange"></TeamBan>
+        <TeamBan position="right" :maps="teamOrange"></TeamBan>
     </div>
 
     <div class="picked-container">
@@ -17,14 +17,12 @@
     </div>
 
     <div class="maps-container">
-        <Maps :maps="maps" />
+        <Maps />
     </div>
 </div>
 </template>
 
 <script>
-import maps from '@/assets/maps'
-
 import TeamBan from '@/components/pick-ban/TeamBan'
 import Maps from '@/components/pick-ban/Maps'
 
@@ -36,17 +34,17 @@ export default {
     },
     data () {
         return {
-            maps: maps
+            
         }
     },
-    mounted () {
-        // this.$store.commit('addBannedMap', {
-        //     team: 'blue',
-        //     map: {
-        //         name: this.maps.filter(map => map.name === 'Chalet')[0].name,
-        //         image: this.maps.filter(map => map.name === 'Chalet')[0].image
-        //     }
-        // })
+    computed: {
+        teamBlue () {
+            return this.$store.state.bannedMaps.teamBlue
+        },
+
+        teamOrange () {
+            return this.$store.state.bannedMaps.teamOrange
+        }
     }
 }
 </script>

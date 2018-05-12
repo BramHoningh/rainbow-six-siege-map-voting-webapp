@@ -36,7 +36,7 @@ export default {
 
       socket.on('connect', () => {
         socket.emit('room', this.roomCode)
-        this.$store.commit('updateCode', {
+        this.$store.commit('UPDATE_CODE', {
           newCode: this.roomCode
         })
       })
