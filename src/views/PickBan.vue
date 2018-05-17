@@ -5,7 +5,7 @@
     </div>
 
     <div class="log-container">
-        LOG CONTAINER
+        <Logger />
     </div>
 
     <div class="team-right">
@@ -25,12 +25,14 @@
 <script>
 import TeamBan from '@/components/pick-ban/TeamBan'
 import Maps from '@/components/pick-ban/Maps'
+import Logger from '@/components/pick-ban/Log'
 
 export default {
     name: 'pickBan',
     components: {
         TeamBan,
-        Maps
+        Maps,
+        Logger
     },
     data () {
         return {
@@ -68,6 +70,7 @@ export default {
     }
 
     .log-container {
+        position: relative;
         grid-area: log;
     }
 

@@ -9,8 +9,9 @@ export default new Vuex.Store({
     code: '',
     maps: maps,
     socket: null,
+    log: [],
     playerTeam: '',
-    hadLastTurn: '',
+    hadLastTurn: 'orange',
     bannedMaps: {
       teamBlue: [],
       teamOrange: []
@@ -41,9 +42,24 @@ export default new Vuex.Store({
 
     UPDATE_HAD_LAST_TURN (state, payload) {
       state.hadLastTurn = payload.team
-    }    
+    },
+    
+    ADD_LOG_ITEM (state, payload) {
+      state.log.push({
+        team: payload.team,
+        message: payload.message
+      })
+    }
   },
   actions: {
+    CHANGE_TURN (context, payload) {
+      context.commit('UPDATE_HAD_LAST_TURN', payload.team)
 
+      let log = {
+        team: payload.team,
+        message: (context.state.playerTeam === payload.team) ? 'The opposite team may vote.' : 'You may vote.'
+      }
+      context.commit('ADD_LOG_ITEM', log)
+    }
   },
 });

@@ -1,5 +1,7 @@
 <template>
-<div class="maps">
+<div 
+  class="maps"
+>
   <div  
     class="map"
     :class="{'disabled': map.team !== ''}" 
@@ -24,62 +26,80 @@
 </template>
 
 <script>
-
 export default {
   name: "maps",
   data() {
-    return {
-    
-    }
+    return {};
   },
   computed: {
-    maps () {
-      return this.$store.state.maps
+    maps() {
+      return this.$store.state.maps;
+    },
+
+    hadLastTurn() {
+      return this.$store.state.hadLastTurn;
+    },
+
+    playerTeam() {
+      this.$store.state.playerTeam;
     }
   },
   methods: {
     banMap(mapName) {
-      this.commitBannedMap(mapName)
+      if (this.$store.state.playerTeam === this.$store.state.hadLastTurn) {
+        alert("It is not your turn");
+      } else {
+        this.commitBannedMap(mapName);
 
-      this.$store.state.socket.emit('user-choose-map', {
-        team: this.$store.state.playerTeam,
-        code: this.$store.state.code,
-        map: mapName
-      })
+        this.$store.state.socket.emit("user-choose-map", {
+          team: this.$store.state.playerTeam,
+          code: this.$store.state.code,
+          map: mapName
+        });
+      }
     },
-    commitBannedMap (mapName) {
-      this.$store.commit('ADD_BANNED_MAP', {
+
+    commitBannedMap(mapName) {
+      this.$store.commit("ADD_BANNED_MAP", {
         map: {
           name: this.maps.filter(map => map.name === mapName)[0].name,
           image: this.maps.filter(map => map.name === mapName)[0].image,
           team: this.$store.state.playerTeam
         }
-      })
+      });
 
-      this.$store.commit('UPDATE_HAD_LAST_TURN', {
+      // this.$store.commit('UPDATE_HAD_LAST_TURN', {
+      //   team: this.$store.state.playerTeam
+      // })
+
+      this.$store.dispatch("CHANGE_TURN", {
         team: this.$store.state.playerTeam
-      })
+      });
     }
   },
-  
-  created () {
+
+  created() {
     if (!this.$store.state.socket) {
-      this.$router.push('/')
-    }
+      this.$router.push("/");
+    } else {
+      this.$store.state.socket.on("choosen-map", data => {
+        this.$store.commit("ADD_BANNED_MAP", {
+          map: {
+            name: this.maps.filter(map => map.name === data.map)[0].name,
+            image: this.maps.filter(map => map.name === data.map)[0].image,
+            team: data.team
+          }
+        });
 
-    this.$store.state.socket.on('choosen-map', data => {
-      this.$store.commit('ADD_BANNED_MAP', {
-        map: {
-          name: this.maps.filter(map => map.name === data.map)[0].name,
-          image: this.maps.filter(map => map.name === data.map)[0].image,
+        // this.$store.commit('UPDATE_HAD_LAST_TURN', {
+        //   team: data.team
+        // })
+
+        this.$store.dispatch("CHANGE_TURN", {
           team: data.team
-        }
-      })
-
-      this.$store.commit('UPDATE_HAD_LAST_TURN', {
-        team: this.$store.state.playerTeam
-      })
-    })
+        });
+      });
+    }
   }
 };
 </script>
